@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>GST Bill Maker — Smart Invoice</title>
+  <meta name="description" content="Create professional GST invoices and download them as PDF.">
+  <meta name="google-site-verification" content="92rAyPFFCiIIPwPW431_dsHlI8AblXNmTvxjUoAxztI">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="style.css">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
+</head>
+<body>
+  <div id="authScreen" class="screen">
+    <div class="auth-card">
+      <div class="brand-mark">GB</div>
+      <h1>GST Bill Maker</h1>
+      <p class="muted">Secure sign-in. Invoice details are not saved by this app.</p>
+
+      <div class="auth-tabs">
+        <button class="tab active" data-auth-tab="email">Email</button>
+        <button class="tab" data-auth-tab="phone">Phone OTP</button>
+        <button class="tab" data-auth-tab="google">Google</button>
+      </div>
+
+      <form id="emailAuthForm" class="auth-panel">
+        <input id="authEmail" type="email" placeholder="Email address" required autocomplete="email">
+        <input id="authPassword" type="password" placeholder="Password" required minlength="6" autocomplete="current-password">
+        <div class="two-col">
+          <button type="submit" data-mode="login" class="btn primary">Login</button>
+          <button type="button" id="registerBtn" class="btn secondary">Create account</button>
+        </div>
+        <button type="button" id="resetPasswordBtn" class="link-btn">Forgot password?</button>
+      </form>
+
+      <div id="phoneAuthPanel" class="auth-panel hidden">
+        <input id="authPhone" type="tel" placeholder="+91 9876543210" autocomplete="tel">
+        <div id="recaptcha-container"></div>
+        <button id="sendOtpBtn" class="btn primary">Send OTP</button>
+        <input id="otpCode" class="hidden" type="text" inputmode="numeric" maxlength="6" placeholder="6-digit OTP">
+        <button id="verifyOtpBtn" class="btn secondary hidden">Verify OTP</button>
+      </div>
+
+      <div id="googleAuthPanel" class="auth-panel hidden">
+        <button id="googleBtn" class="btn primary">Continue with Google</button>
+      </div>
+
+      <p id="authMessage" class="message"></p>
+    </div>
+  </div>
+
+  <div id="appScreen" class="hidden">
+    <header class="topbar">
+      <div>
+        <strong>GST Bill Maker</strong>
+        <span class="muted">Professional invoice studio</span>
+      </div>
+      <div class="top-actions">
+        <span id="userEmail" class="user-chip"></span>
+        <button id="logoutBtn" class="btn ghost">Logout</button>
+      </div>
+    </header>
+
+    <main class="app-shell">
+      <section class="hero">
+        <div>
+          <span class="eyebrow">FAST • PRIVATE • PDF READY</span>
+          <h2>Create a polished GST invoice in minutes.</h2>
+          <p>Enter details, add your logo and UPI QR, preview the bill, then download the PDF. Nothing except authentication is persisted.</p>
+        </div>
+        <div class="hero-actions">
+          <button id="previewBtn" class="btn secondary">Preview</button>
+          <button id="downloadBtn" class="btn primary">Download PDF</button>
+          <button id="newInvoiceBtn" class="btn ghost">New Invoice</button>
+        </div>
+      </section>
+
+      <div id="toastContainer"></div>
+
+      <section class="grid-layout">
+        <div class="editor">
+
+          <div class="card">
+            <div class="card-head"><h3>1. Business details</h3><span class="step">01</span></div>
+            <div class="form-grid">
+              <label>Business / Company name<input id="sellerName" placeholder="ABC Traders"></label>
+              <label>GSTIN<input id="sellerGSTIN" maxlength="15" placeholder="22AAAAA0000A1Z5"></label>
+              <label class="wide">Business address<textarea id="sellerAddress" rows="3" placeholder="Full address"></textarea></label>
+              <label>State<select id="sellerState"></select></label>
+              <label>Phone number<input id="sellerPhone" type="tel" placeholder="+91 9876543210"></label>
+              <label>Email<input id="sellerEmail" type="email" placeholder="billing@example.com"></label>
+            </div>
+            <div class="upload-row">
+              <div>
+                <strong>Company logo</strong>
+                <p class="muted small">Used only while generating this invoice; not uploaded to Firebase Storage.</p>
+              </div>
+              <label class="upload-btn">Choose image<input id="logoInput" type="file" accept="image/png,image/jpeg,image/webp"></label>
+              <img id="logoThumb" class="logo-thumb hidden" alt="Logo preview">
+              <button id="removeLogoBtn" class="btn danger small-btn hidden" type="button">Remove</button>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><h3>2. Customer details</h3><span class="step">02</span></div>
+            <div class="form-grid">
+              <label>Customer / Buyer name<input id="buyerName" placeholder="Customer name"></label>
+              <label>GSTIN<input id="buyerGSTIN" maxlength="15" placeholder="Optional"></label>
+              <label class="wide">Billing address<textarea id="buyerAddress" rows="3" placeholder="Customer address"></textarea></label>
+              <label>State<select id="buyerState"></select></label>
+              <label>Phone number<input id="buyerPhone" type="tel" placeholder="+91 9876543210"></label>
+              <label>Email<input id="buyerEmail" type="email" placeholder="customer@example.com"></label>
+              <label>Place of supply<select id="placeOfSupply"></select></label>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><h3>3. Invoice information</h3><span class="step">03</span></div>
+            <div class="form-grid">
+              <label>Invoice number<input id="invoiceNumber" value="INV-0001"></label>
+              <label>Invoice date<input id="invoiceDate" type="date"></label>
+              <label>Due date<input id="dueDate" type="date"></label>
+              <label>Payment terms<input id="paymentTerms" placeholder="Due on receipt"></label>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><h3>4. Items</h3><button id="addItemBtn" class="btn primary small-btn" type="button">+ Add item</button></div>
+            <div class="table-wrap">
+              <table class="items-table">
+                <thead><tr><th>#</th><th>Product / Service</th><th>HSN/SAC</th><th>Qty</th><th>Rate</th><th>GST</th><th>Amount</th><th></th></tr></thead>
+                <tbody id="itemsBody"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><h3>5. Payment & UPI</h3><span class="step">05</span></div>
+            <div class="form-grid">
+              <label>UPI ID<input id="upiId" placeholder="business@upi"></label>
+              <label>Account holder name<input id="accountName" placeholder="ABC Traders"></label>
+              <label>Bank name<input id="bankName" placeholder="Your bank"></label>
+              <label>Account number<input id="accountNumber" inputmode="numeric" placeholder="Account number"></label>
+              <label>IFSC code<input id="ifsc" maxlength="11" placeholder="ABCD0123456"></label>
+              <label>Payment note<input id="paymentNote" placeholder="Scan QR to pay"></label>
+            </div>
+            <div class="qr-row">
+              <div id="qrPreview" class="qr-box"><span class="muted small">UPI QR will appear here</span></div>
+              <p class="muted small">The QR is generated locally from the UPI ID. It is not uploaded or stored.</p>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><h3>6. Notes & signature</h3><span class="step">06</span></div>
+            <div class="form-grid">
+              <label class="wide">Notes / terms<textarea id="invoiceNotes" rows="4" placeholder="Thank you for your business."></textarea></label>
+              <label>Authorized signatory<input id="signatoryName" placeholder="Authorized Signatory"></label>
+            </div>
+            <div class="upload-row">
+              <div><strong>Signature image (optional)</strong><p class="muted small">Kept in memory only and embedded into the PDF.</p></div>
+              <label class="upload-btn">Choose signature<input id="signatureInput" type="file" accept="image/png,image/jpeg,image/webp"></label>
+              <img id="signatureThumb" class="signature-thumb hidden" alt="Signature preview">
+              <button id="removeSignatureBtn" class="btn danger small-btn hidden" type="button">Remove</button>
+            </div>
+          </div>
+
+        </div>
+
+        <aside class="side-panel">
+          <div class="card sticky">
+            <div class="card-head"><h3>Live total</h3></div>
+            <div class="summary-row"><span>Taxable amount</span><strong id="taxableAmount">₹0.00</strong></div>
+            <div class="summary-row"><span>CGST</span><strong id="cgstAmount">₹0.00</strong></div>
+            <div class="summary-row"><span>SGST</span><strong id="sgstAmount">₹0.00</strong></div>
+            <div class="summary-row"><span>IGST</span><strong id="igstAmount">₹0.00</strong></div>
+            <div class="grand"><span>Grand total</span><strong id="grandTotal">₹0.00</strong></div>
+            <p id="taxModeMessage" class="muted small">Select seller and buyer states.</p>
+          </div>
+          <div class="card security-card">
+            <h3>Privacy by design</h3>
+            <p class="muted">This version does not save invoice, customer, logo, signature, bank or UPI details in Firestore or Storage. They exist only in the current browser session until you leave/reset the page.</p>
+          </div>
+        </aside>
+      </section>
+    </main>
+  </div>
+
+  <div id="previewModal" class="modal hidden">
+    <div class="modal-card">
+      <div class="modal-head"><strong>Invoice preview</strong><button id="closePreviewBtn" class="icon-btn">×</button></div>
+      <div id="previewContainer" class="preview-container"></div>
+    </div>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
