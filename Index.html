@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>GST Bill Maker</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- QR Code Generator -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+    <!-- PDF Generator -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <link
+        rel="stylesheet"
+        href="./style.css"
+    >
+</head>
+
+
+<body>
+
+<!-- =====================================================
+     APP HEADER
+===================================================== -->
+
+<header
+    id="appHeader"
+    class="sticky top-0 z-40 border-b border-slate-200 bg-white/95 backdrop-blur"
+>
+
+    <div
+        class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8"
+    >
+
+        <div>
+
+            <h1 class="text-xl font-black tracking-tight text-slate-900">
+                GST Bill Maker
+            </h1>
+
+            <p class="text-xs font-medium text-slate-500">
+                Professional GST Invoice Generator
+            </p>
+
+        </div>
+
+
+        <div class="flex gap-2">
+
+            <button
+                id="clearInvoiceBtn"
+                type="button"
+                class="secondary-btn"
+            >
+                New Invoice
+            </button>
+
+            <button
+                id="previewInvoiceBtn"
+                type="button"
+                class="secondary-btn"
+            >
+                Preview
+            </button>
+
+            <button
+                id="downloadPdfBtn"
+                type="button"
+                class="primary-btn"
+            >
+                Download PDF
+            </button>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main
+    class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8"
+>
+
+<div
+    class="grid grid-cols-1 gap-6 lg:grid-cols-3"
+>
+
+
+<!-- =====================================================
+     LEFT CONTENT
+===================================================== -->
+
+<div class="space-y-6 lg:col-span-2">
+
+
+<!-- =====================================================
+     COMPANY / BUSINESS DETAILS
+===================================================== -->
+
+<section
+    id="businessDetailsSection"
+    class="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm"
+>
+
+    <div class="mb-5">
+
+        <h2 class="text-lg font-black text-slate-900">
+            Business Details
+        </h2>
+
+        <p class="mt-1 text-sm text-slate-500">
+            Add your company information and logo.
+        </p>
+
+    </div>
+
+
+    <div class="grid grid-cols-1 gap-5 md:grid-cols-3">
+
+
+        <!-- LOGO -->
+
+        <div
+            class="rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-4"
+        >
+
+            <label class="mb-3 block text-xs font-black uppercase tracking-wider text-slate-500">
+                Company Logo
+            </label>
+
+
+            <div
+                id="logoPreviewContainer"
+                class="mb-3 flex h-32 items-center justify-center overflow-hidden rounded-2xl border border-slate-200 bg-white"
+            >
+
+                <div
+                    id="logoPlaceholder"
+                    class="text-center text-xs font-bold text-slate-400"
+                >
+                    No Logo
+                </div>
+
+                <img
+                    id="companyLogoPreview"
+                    src=""
+                    alt="Company Logo"
+                    class="hidden max-h-full max-w-full object-contain"
+                >
+
+            </div>
+
+
+            <input
+                id="companyLogo"
+                type="file"
+                accept="image/png,image/jpeg,image/webp"
+                class="app-input"
+            >
+
+
+            <button
+                id="removeLogoBtn"
+                type="button"
+                class="secondary-btn mt-2 w-full"
+            >
+                Remove Logo
+            </button>
+
+        </div>
+
+
+        <!-- COMPANY INFO -->
+
+        <div class="space-y-3 md:col-span-2">
+
+            <input
+                id="companyName"
+                class="app-input"
+                type="text"
+                placeholder="Company / Business Name"
+            >
+
+            <input
+                id="ownerName"
+                class="app-input"
+                type="text"
+                placeholder="Owner Name"
+            >
+
+            <textarea
+                id="companyAddress"
+                class="app-input"
+                rows="3"
+                placeholder="Business Address"
+            ></textarea>
+
+
+            <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+
+                <input
+                    id="companyPhone"
+                    class="app-input"
+                    type="tel"
+                    placeholder="Mobile Number"
+                >
+
+                <input
+                    id="companyEmail"
+                    class="app-input"
+                    type="email"
+                    placeholder="Email Address"
+                >
+
+                <input
+                    id="companyGSTIN"
+                    class="app-input"
+                    type="text"
+                    placeholder="GSTIN"
+                    maxlength="15"
+                >
+
+                <input
+                    id="companyPAN"
+                    class="app-input"
+                    type="text"
+                    placeholder="PAN"
+                    maxlength="10"
+                >
+
+                <input
+                    id="companyCity"
+                    class="app-input"
+                    type="text"
+                    placeholder="City"
+                >
+
+                <input
+                    id="companyPin"
+                    class="app-input"
+                    type="text"
+                    placeholder="PIN Code"
+                    maxlength="6"
+                >
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="mt-4">
+
+        <label class="mb-2 block text-xs font-black uppercase tracking-wider text-slate-500">
+            Business State
+        </label>
+
+        <select
+            id="companyState"
+            class="app-input"
+        >
+
+            <option value="">
+                Select Business State
+            </option>
+
+        </select>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     PAYMENT DETAILS
+===================================================== -->
+
+<section
+    id="paymentDetailsSection"
+    class="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm"
+>
+
+    <div class="mb-5">
+
+        <h2 class="text-lg font-black text-slate-900">
+            Payment Details
+        </h2>
+
+        <p class="mt-1 text-sm text-slate-500">
+            Add UPI and bank information for invoice payments.
+        </p>
+
+    </div>
+
+
+    <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+
+
+        <input
+            id="upiId"
+            class="app-input"
+            type="text"
+            placeholder="UPI ID e.g. business@upi"
+        >
+
+
+        <input
+            id="upiName"
+            class="app-input"
+            type="text"
+            placeholder="UPI Account Holder / Business Name"
+        >
+
+
+        <input
+            id="bankName"
+            class="app-input"
+            type="text"
+            placeholder="Bank Name"
+        >
+
+
+        <input
+            id="accountHolderName"
+            class="app-input"
+            type="text"
+            placeholder="Account Holder Name"
+        >
+
+
+        <input
+            id="accountNumber"
+            class="app-input"
+            type="text"
+            inputmode="numeric"
+            placeholder="Bank Account Number"
+        >
+
+
+        <input
+            id="ifscCode"
+            class="app-input"
+            type="text"
+            placeholder="IFSC Code"
+            maxlength="11"
+        >
+
+
+        <input
+            id="branchName"
+            class="app-input"
+            type="text"
+            placeholder="Branch Name"
+        >
+
+    </div>
+
+
+    <div class="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
+
+
+        <label
+            class="flex cursor-pointer items-center gap-3 rounded-2xl border border-slate-200 p-4"
+        >
+
+            <input
+                id="showPaymentQR"
+                type="checkbox"
+                checked
+                class="h-4 w-4"
+            >
+
+            <span class="text-sm font-bold text-slate-700">
+                Show Payment QR on Invoice
+            </span>
+
+        </label>
+
+
+        <label
+            class="flex cursor-pointer items-center gap-3 rounded-2xl border border-slate-200 p-4"
+        >
+
+            <input
+                id="useGrandTotalForQR"
+                type="checkbox"
+                checked
+                class="h-4 w-4"
+            >
+
+            <span class="text-sm font-bold text-slate-700">
+                Use Grand Total in QR
+            </span>
+
+        </label>
+
+
+        <label
+            class="flex cursor-pointer items-center gap-3 rounded-2xl border border-slate-200 p-4"
+        >
+
+            <input
+                id="maskAccountNumber"
+                type="checkbox"
+                checked
+                class="h-4 w-4"
+            >
+
+            <span class="text-sm font-bold text-slate-700">
+                Mask Account Number
+            </span>
+
+        </label>
+
+
+        <label
+            class="flex cursor-pointer items-center gap-3 rounded-2xl border border-slate-200 p-4"
+        >
+
+            <input
+                id="showBankDetails"
+                type="checkbox"
+                checked
+                class="h-4 w-4"
+            >
+
+            <span class="text-sm font-bold text-slate-700">
+                Show Bank Details
+            </span>
+
+        </label>
+
+    </div>
+
+
+    <!-- QR PREVIEW -->
+
+    <div
+        class="mt-5 rounded-2xl border border-indigo-100 bg-indigo-50 p-5"
+    >
+
+        <div class="flex flex-col gap-5 sm:flex-row sm:items-center">
+
+            <div>
+
+                <h3 class="font-black text-slate-900">
+                    Payment QR Preview
+                </h3>
+
+                <p
+                    id="qrStatus"
+                    class="mt-1 text-xs text-slate-500"
+                >
+                    Enter a UPI ID to generate QR.
+                </p>
+
+            </div>
+
+
+            <div
+                id="qrPreview"
+                class="flex min-h-32 min-w-32 items-center justify-center rounded-2xl bg-white p-3"
+            ></div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     SELLER DETAILS
+===================================================== -->
+
+<section
+    id="partyDetailsSection"
+    class="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm"
+>
+
+    <h2 class="mb-5 text-lg font-black text-slate-900">
+        Seller & Buyer Details
+    </h2>
+
+
+    <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
+
+
+        <!-- SELLER -->
+
+        <div
+            class="rounded-2xl border border-slate-200 p-4"
+        >
+
+            <h3 class="mb-4 text-sm font-black uppercase tracking-wider text-indigo-600">
+                Bill From / Seller
+            </h3>
+
+
+            <div class="space-y-3">
+
+                <input
+                    id="sellerName"
+                    class="app-input"
+                    type="text"
+                    placeholder="Seller / Company Name"
+                >
+
+                <textarea
+                    id="sellerAddress"
+                    class="app-input"
+                    rows="3"
+                    placeholder="Seller Address"
+                ></textarea>
+
+                <input
+                    id="sellerGSTIN"
+                    class="app-input"
+                    type="text"
+                    placeholder="Seller GSTIN"
+                    maxlength="15"
+                >
+
+                <select
+                    id="sellerState"
+                    class="app-input"
+                >
+
+                    <option value="">
+                        Select Seller State
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <!-- BUYER -->
+
+        <div
+            class="rounded-2xl border border-slate-200 p-4"
+        >
+
+            <h3 class="mb-4 text-sm font-black uppercase tracking-wider text-indigo-600">
+                Bill To / Buyer
+            </h3>
+
+
+            <div class="space-y-3">
+
+                <input
+                    id="buyerName"
+                    class="app-input"
+                    type="text"
+                    placeholder="Buyer Name"
+                >
+
+                <textarea
+                    id="buyerAddress"
+                    class="app-input"
+                    rows="3"
+                    placeholder="Buyer Address"
+                ></textarea>
+
+                <input
+                    id="buyerGSTIN"
+                    class="app-input"
+                    type="text"
+                    placeholder="Buyer GSTIN"
+                    maxlength="15"
+                >
+
+                <select
+                    id="buyerState"
+                    class="app-input"
+                >
+
+                    <option value="">
+                        Select Buyer State
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     INVOICE META
+===================================================== -->
+
+<section
+    id="invoiceMetaSection"
+    class="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm"
+>
+
+    <h2 class="mb-5 text-lg font-black text-slate-900">
+        Invoice Information
+    </h2>
+
+
+    <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
+
+        <div>
+
+            <label class="mb-2 block text-xs font-bold text-slate-500">
+                Invoice Number
+            </label>
+
+            <input
+                id="invoiceNumber"
+                class="app-input"
+                type="text"
+                placeholder="INV-0001"
+            >
+
+        </div>
+
+
+        <div>
+
+            <label class="mb-2 block text-xs font-bold text-slate-500">
+                Invoice Date
+            </label>
+
+            <input
+                id="invoiceDate"
+                class="app-input"
+                type="date"
+            >
+
+        </div>
+
+
+        <div>
+
+            <label class="mb-2 block text-xs font-bold text-slate-500">
+                Place of Supply
+            </label>
+
+            <select
+                id="placeOfSupply"
+                class="app-input"
+            >
+
+                <option value="">
+                    Select Place of Supply
+                </option>
+
+            </select>
+
+        </div>
+
+    </div>
+
+
+    <div
+        class="mt-4 rounded-2xl bg-slate-50 p-4"
+    >
+
+        <p class="text-xs font-bold text-slate-500">
+            Invoice Number
+        </p>
+
+        <p
+            id="invoiceNumberPreview"
+            class="mt-1 text-lg font-black text-slate-900"
+        >
+            INV-0001
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     ITEMS
+===================================================== -->
+
+<section
+    id="itemsSection"
+    class="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm"
+>
+
+    <div class="mb-5 flex items-center justify-between gap-4">
+
+        <div>
+
+            <h2 class="text-lg font-black text-slate-900">
+                Invoice Items
+            </h2>
+
+            <p class="mt-1 text-sm text-slate-500">
+                Add products or services.
+            </p>
+
+        </div>
+
+
+        <button
+            id="addItemBtn"
+            type="button"
+            class="primary-btn"
+        >
+            + Add Item
+        </button>
+
+    </div>
+
+
+    <div class="overflow-x-auto">
+
+        <table
+            id="itemsTable"
+            class="w-full min-w-[850px]"
+        >
+
+            <thead>
+
+                <tr class="border-b border-slate-200">
+
+                    <th class="table-heading text-center">
+                        #
+                    </th>
+
+                    <th class="table-heading">
+                        Product / Service
+                    </th>
+
+                    <th class="table-heading">
+                        HSN/SAC
+                    </th>
+
+                    <th class="table-heading">
+                        Qty
+                    </th>
+
+                    <th class="table-heading">
+                        Rate
+                    </th>
+
+                    <th class="table-heading">
+                        GST
+                    </th>
+
+                    <th class="table-heading text-right">
+                        Amount
+                    </th>
+
+                    <th class="table-heading text-center">
+                        Action
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody id="itemsBody"></tbody>
+
+        </table>
+
+    </div>
+
+
+    <div
+        id="itemsEmptyState"
+        class="hidden py-8 text-center text-sm font-bold text-slate-400"
+    >
+        No items added.
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     GST INFORMATION
+===================================================== -->
+
+<section
+    id="gstInformationSection"
+    class="rounded-3xl border border-indigo-100 bg-indigo-50 p-5"
+>
+
+    <h2 class="text-lg font-black text-slate-900">
+        GST Information
+    </h2>
+
+    <p
+        id="taxModeMessage"
+        class="mt-2 text-sm font-medium text-slate-600"
+    >
+        Select Seller State and Buyer State to calculate CGST, SGST or IGST.
+    </p>
+
+</section>
+
+
+<!-- =====================================================
+     NOTES
+===================================================== -->
+
+<section
+    id="notesSection"
+    class="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm"
+>
+
+    <h2 class="mb-4 text-lg font-black text-slate-900">
+        Notes / Terms
+    </h2>
+
+    <textarea
+        id="invoiceNotes"
+        class="app-input"
+        rows="5"
+        placeholder="Thank you for your business..."
+    ></textarea>
+
+</section>
+
+
+</div>
+
+
+<!-- =====================================================
+     RIGHT SUMMARY
+===================================================== -->
+
+<aside
+    id="summarySidebar"
+    class="lg:sticky lg:top-24 lg:h-fit"
+>
+
+<div
+    class="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm"
+>
+
+    <h2 class="mb-5 text-lg font-black text-slate-900">
+        Invoice Summary
+    </h2>
+
+
+    <div class="summary-row">
+
+        <span>
+            Taxable Amount
+        </span>
+
+        <strong id="taxableAmount">
+            ₹0.00
+        </strong>
+
+    </div>
+
+
+    <div class="summary-row">
+
+        <span>
+            CGST
+        </span>
+
+        <strong id="cgstAmount">
+            ₹0.00
+        </strong>
+
+    </div>
+
+
+    <div class="summary-row">
+
+        <span>
+            SGST
+        </span>
+
+        <strong id="sgstAmount">
+            ₹0.00
+        </strong>
+
+    </div>
+
+
+    <div class="summary-row">
+
+        <span>
+            IGST
+        </span>
+
+        <strong id="igstAmount">
+            ₹0.00
+        </strong>
+
+    </div>
+
+
+    <div
+        class="mt-4 rounded-2xl bg-indigo-50 p-4"
+    >
+
+        <div class="flex items-center justify-between gap-4">
+
+            <span class="font-black text-indigo-900">
+                Grand Total
+            </span>
+
+            <strong
+                id="grandTotal"
+                class="text-xl font-black text-indigo-700"
+            >
+                ₹0.00
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <button
+        id="downloadPdfBtn"
+        type="button"
+        class="primary-btn mt-5 w-full"
+    >
+        Download GST Invoice PDF
+    </button>
+
+
+    <button
+        id="previewInvoiceBtn"
+        type="button"
+        class="secondary-btn mt-2 w-full"
+    >
+        Preview Invoice
+    </button>
+
+</div>
+
+</aside>
+
+
+</div>
+
+</main>
+
+
+<!-- =====================================================
+     PREVIEW MODAL
+===================================================== -->
+
+<div
+    id="invoicePreviewModal"
+    class="fixed inset-0 z-50 hidden overflow-auto bg-slate-950/60 p-3 backdrop-blur-sm sm:p-6"
+>
+
+    <div
+        class="mx-auto min-h-full max-w-6xl rounded-3xl bg-white shadow-2xl"
+    >
+
+        <div
+            class="sticky top-0 z-10 flex items-center justify-between gap-4 border-b border-slate-200 bg-white px-4 py-4 sm:px-6"
+        >
+
+            <div>
+
+                <h2 class="font-black text-slate-900">
+                    Invoice Preview
+                </h2>
+
+                <p class="text-xs text-slate-500">
+                    A4 invoice preview
+                </p>
+
+            </div>
+
+
+            <button
+                id="closePreviewBtn"
+                type="button"
+                class="secondary-btn"
+            >
+                Close
+            </button>
+
+        </div>
+
+
+        <div
+            id="invoicePreviewContainer"
+            class="p-3 sm:p-6"
+        ></div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     TOAST
+===================================================== -->
+
+<div
+    id="toastContainer"
+    class="pointer-events-none fixed right-4 top-20 z-[100] flex flex-col gap-3"
+></div>
+
+
+<!-- =====================================================
+     APP JS
+===================================================== -->
+
+<script
+    type="module"
+    src="./app.js"
+></script>
+
+</body>
+
+</html>
