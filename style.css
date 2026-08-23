@@ -1,0 +1,1295 @@
+/* =========================================================
+   GST BILL MAKER — PREMIUM GLOBAL STYLES
+   File: style.css
+========================================================= */
+
+
+/* =========================================================
+   ROOT
+========================================================= */
+
+:root {
+    --brand: #4f46e5;
+    --brand-dark: #3730a3;
+    --brand-light: #eef2ff;
+
+    --text-main: #0f172a;
+    --text-muted: #64748b;
+
+    --border: #e2e8f0;
+    --surface: #ffffff;
+    --background: #f8fafc;
+
+    --success: #059669;
+    --danger: #dc2626;
+    --warning: #d97706;
+
+    --radius-lg: 1rem;
+    --radius-xl: 1.25rem;
+    --radius-2xl: 1.5rem;
+    --radius-3xl: 1.75rem;
+}
+
+
+/* =========================================================
+   BASE
+========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+
+    font-family:
+        "Inter",
+        ui-sans-serif,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    background:
+        radial-gradient(
+            circle at top left,
+            rgba(99, 102, 241, 0.05),
+            transparent 28%
+        ),
+        var(--background);
+
+    color: var(--text-main);
+
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+
+/* =========================================================
+   SELECTION
+========================================================= */
+
+::selection {
+    background: rgba(79, 70, 229, 0.18);
+    color: #1e1b4b;
+}
+
+
+/* =========================================================
+   SCROLLBAR
+========================================================= */
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+
+/* =========================================================
+   FORM INPUTS
+========================================================= */
+
+.app-input {
+    width: 100%;
+    min-height: 46px;
+
+    border: 1px solid var(--border);
+    border-radius: 0.875rem;
+
+    background: #ffffff;
+
+    padding: 0.7rem 0.9rem;
+
+    font-size: 0.875rem;
+    font-weight: 500;
+
+    color: var(--text-main);
+
+    outline: none;
+
+    transition:
+        border-color 160ms ease,
+        box-shadow 160ms ease,
+        background-color 160ms ease,
+        transform 160ms ease;
+}
+
+.app-input::placeholder {
+    color: #94a3b8;
+    font-weight: 400;
+}
+
+.app-input:hover {
+    border-color: #cbd5e1;
+}
+
+.app-input:focus {
+    border-color: var(--brand);
+
+    box-shadow:
+        0 0 0 4px rgba(79, 70, 229, 0.10);
+}
+
+.app-input:disabled {
+    cursor: not-allowed;
+    background: #f8fafc;
+    color: #94a3b8;
+}
+
+textarea.app-input {
+    line-height: 1.6;
+}
+
+select.app-input {
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   NUMBER INPUT
+========================================================= */
+
+input[type="number"].app-input {
+    appearance: textfield;
+}
+
+input[type="number"].app-input::-webkit-inner-spin-button,
+input[type="number"].app-input::-webkit-outer-spin-button {
+    margin: 0;
+    appearance: none;
+}
+
+
+/* =========================================================
+   DATE INPUT
+========================================================= */
+
+input[type="date"].app-input {
+    color-scheme: light;
+}
+
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.primary-btn {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 0.5rem;
+
+    min-height: 44px;
+
+    padding: 0.7rem 1rem;
+
+    border: 0;
+    border-radius: 0.875rem;
+
+    background:
+        linear-gradient(
+            135deg,
+            #6366f1,
+            #4f46e5
+        );
+
+    color: #ffffff;
+
+    font-size: 0.875rem;
+    font-weight: 800;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 8px 20px rgba(79, 70, 229, 0.18);
+
+    transition:
+        transform 160ms ease,
+        box-shadow 160ms ease,
+        filter 160ms ease;
+}
+
+.primary-btn:hover {
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 12px 28px rgba(79, 70, 229, 0.24);
+
+    filter: brightness(1.03);
+}
+
+.primary-btn:active {
+    transform: translateY(0);
+}
+
+.primary-btn:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+
+.secondary-btn {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 0.5rem;
+
+    min-height: 44px;
+
+    padding: 0.7rem 1rem;
+
+    border: 1px solid var(--border);
+    border-radius: 0.875rem;
+
+    background: #ffffff;
+
+    color: #334155;
+
+    font-size: 0.875rem;
+    font-weight: 800;
+
+    cursor: pointer;
+
+    transition:
+        background-color 160ms ease,
+        border-color 160ms ease,
+        transform 160ms ease;
+}
+
+.secondary-btn:hover {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+    transform: translateY(-1px);
+}
+
+.secondary-btn:active {
+    transform: translateY(0);
+}
+
+
+/* =========================================================
+   TABLE
+========================================================= */
+
+.table-heading {
+    padding: 0.85rem 0.75rem;
+
+    text-align: left;
+
+    font-size: 0.68rem;
+    font-weight: 900;
+
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+
+    color: #64748b;
+}
+
+#itemsTable tbody tr {
+    border-bottom: 1px solid #f1f5f9;
+
+    transition:
+        background-color 150ms ease;
+}
+
+#itemsTable tbody tr:hover {
+    background: #fafbff;
+}
+
+#itemsTable tbody tr:last-child {
+    border-bottom: 0;
+}
+
+#itemsTable td {
+    padding: 0.7rem 0.6rem;
+    vertical-align: middle;
+}
+
+#itemsTable td .app-input {
+    min-height: 42px;
+
+    border-radius: 0.7rem;
+
+    padding: 0.55rem 0.7rem;
+
+    font-size: 0.8rem;
+}
+
+
+/* =========================================================
+   ITEM DELETE BUTTON
+========================================================= */
+
+.item-delete-btn {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 36px;
+    height: 36px;
+
+    border: 1px solid #fee2e2;
+    border-radius: 0.7rem;
+
+    background: #fff7f7;
+
+    color: #dc2626;
+
+    font-size: 0.9rem;
+    font-weight: 900;
+
+    cursor: pointer;
+
+    transition:
+        background-color 150ms ease,
+        border-color 150ms ease,
+        transform 150ms ease;
+}
+
+.item-delete-btn:hover {
+    background: #fee2e2;
+    border-color: #fecaca;
+    transform: scale(1.04);
+}
+
+
+/* =========================================================
+   SUMMARY
+========================================================= */
+
+.summary-row {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 1rem;
+
+    padding: 0.65rem 0;
+
+    color: #64748b;
+
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.summary-row strong {
+    color: #0f172a;
+
+    font-size: 0.875rem;
+    font-weight: 800;
+
+    white-space: nowrap;
+}
+
+#grandTotal {
+    font-variant-numeric: tabular-nums;
+}
+
+#taxableAmount,
+#cgstAmount,
+#sgstAmount,
+#igstAmount {
+    font-variant-numeric: tabular-nums;
+}
+
+
+/* =========================================================
+   GST INFORMATION
+========================================================= */
+
+#gstInformationSection {
+    transition:
+        border-color 180ms ease,
+        background-color 180ms ease;
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+.toast {
+    pointer-events: auto;
+
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 0.75rem;
+
+    width: min(360px, calc(100vw - 2rem));
+
+    padding: 0.9rem 1rem;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 1rem;
+
+    background: rgba(255, 255, 255, 0.96);
+
+    box-shadow:
+        0 20px 45px rgba(15, 23, 42, 0.14);
+
+    backdrop-filter: blur(16px);
+
+    animation:
+        toastIn 220ms ease forwards;
+}
+
+.toast-success {
+    border-color: #a7f3d0;
+}
+
+.toast-error {
+    border-color: #fecaca;
+}
+
+.toast-warning {
+    border-color: #fde68a;
+}
+
+@keyframes toastIn {
+
+    from {
+        opacity: 0;
+        transform: translateX(20px) translateY(-5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0) translateY(0);
+    }
+
+}
+
+@keyframes toastOut {
+
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+
+}
+
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+#invoicePreviewModal {
+    animation:
+        modalFadeIn 180ms ease forwards;
+}
+
+@keyframes modalFadeIn {
+
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+
+}
+
+
+/* =========================================================
+   INVOICE PREVIEW
+========================================================= */
+
+#invoicePreviewContainer {
+    min-height: 400px;
+}
+
+
+/* =========================================================
+   PAYMENT / QR SECTION
+   Future payment module के लिए तैयार
+========================================================= */
+
+.payment-section {
+    width: 100%;
+
+    margin-top: 1.5rem;
+
+    padding: 1.25rem;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 1.5rem;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 8px 24px rgba(15, 23, 42, 0.05);
+}
+
+.payment-header {
+    display: flex;
+
+    align-items: flex-start;
+    justify-content: space-between;
+
+    gap: 1rem;
+
+    margin-bottom: 1rem;
+}
+
+.payment-title {
+    margin: 0;
+
+    font-size: 1rem;
+    font-weight: 900;
+
+    color: #0f172a;
+}
+
+.payment-subtitle {
+    margin: 0.35rem 0 0;
+
+    color: #64748b;
+
+    font-size: 0.8rem;
+    line-height: 1.5;
+}
+
+.payment-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 1rem;
+}
+
+.payment-card {
+    padding: 1rem;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 1rem;
+
+    background: #f8fafc;
+}
+
+.payment-card-title {
+    margin-bottom: 0.75rem;
+
+    font-size: 0.75rem;
+    font-weight: 900;
+
+    color: #334155;
+
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.qr-wrapper {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    min-height: 220px;
+
+    padding: 1rem;
+
+    border: 1px dashed #cbd5e1;
+    border-radius: 1rem;
+
+    background: #ffffff;
+}
+
+.qr-image {
+    display: block;
+
+    width: 190px;
+    height: 190px;
+
+    max-width: 100%;
+
+    object-fit: contain;
+
+    border-radius: 0.75rem;
+}
+
+.qr-placeholder {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 190px;
+    height: 190px;
+
+    max-width: 100%;
+
+    border: 1px dashed #cbd5e1;
+    border-radius: 1rem;
+
+    background:
+        repeating-linear-gradient(
+            45deg,
+            #f8fafc,
+            #f8fafc 8px,
+            #f1f5f9 8px,
+            #f1f5f9 16px
+        );
+
+    text-align: center;
+
+    color: #64748b;
+}
+
+.qr-placeholder-icon {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 48px;
+    height: 48px;
+
+    margin-bottom: 0.75rem;
+
+    border-radius: 0.875rem;
+
+    background: #eef2ff;
+
+    color: #4f46e5;
+
+    font-weight: 900;
+}
+
+.qr-placeholder-title {
+    font-size: 0.8rem;
+    font-weight: 900;
+    color: #334155;
+}
+
+.qr-placeholder-text {
+    max-width: 150px;
+
+    margin-top: 0.35rem;
+
+    font-size: 0.7rem;
+    line-height: 1.4;
+
+    color: #94a3b8;
+}
+
+.payment-details {
+    display: grid;
+
+    gap: 0.65rem;
+}
+
+.payment-detail-row {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 1rem;
+
+    padding: 0.7rem 0.8rem;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 0.75rem;
+
+    background: #ffffff;
+}
+
+.payment-detail-label {
+    color: #64748b;
+
+    font-size: 0.72rem;
+    font-weight: 700;
+}
+
+.payment-detail-value {
+    color: #0f172a;
+
+    font-size: 0.78rem;
+    font-weight: 900;
+
+    text-align: right;
+
+    word-break: break-word;
+}
+
+.payment-amount {
+    margin-top: 0.75rem;
+
+    padding: 0.9rem 1rem;
+
+    border-radius: 0.875rem;
+
+    background: #eef2ff;
+
+    color: #312e81;
+
+    text-align: center;
+}
+
+.payment-amount-label {
+    display: block;
+
+    font-size: 0.65rem;
+    font-weight: 800;
+
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.payment-amount-value {
+    display: block;
+
+    margin-top: 0.2rem;
+
+    font-size: 1.25rem;
+    font-weight: 900;
+}
+
+
+/* =========================================================
+   SCANNER SECTION
+   Camera/document scanner UI के लिए
+========================================================= */
+
+.scanner-section {
+    margin-top: 1rem;
+
+    padding: 1rem;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 1rem;
+
+    background: #ffffff;
+}
+
+.scanner-box {
+    position: relative;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    min-height: 240px;
+
+    overflow: hidden;
+
+    border-radius: 1rem;
+
+    background: #0f172a;
+}
+
+.scanner-video {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    min-height: 240px;
+
+    object-fit: cover;
+}
+
+.scanner-overlay {
+    position: absolute;
+
+    inset: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    pointer-events: none;
+}
+
+.scanner-frame {
+    position: relative;
+
+    width: min(230px, 70vw);
+    height: min(230px, 70vw);
+
+    border: 2px solid rgba(255, 255, 255, 0.9);
+    border-radius: 1.25rem;
+
+    box-shadow:
+        0 0 0 9999px rgba(15, 23, 42, 0.35);
+}
+
+.scanner-frame::before,
+.scanner-frame::after {
+    content: "";
+
+    position: absolute;
+
+    left: 10%;
+    right: 10%;
+
+    height: 2px;
+
+    background: #ffffff;
+
+    opacity: 0.9;
+}
+
+.scanner-frame::before {
+    top: 25%;
+}
+
+.scanner-frame::after {
+    bottom: 25%;
+}
+
+.scanner-status {
+    margin-top: 0.75rem;
+
+    color: #64748b;
+
+    font-size: 0.75rem;
+
+    line-height: 1.5;
+
+    text-align: center;
+}
+
+.scanner-actions {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 0.5rem;
+
+    margin-top: 0.75rem;
+}
+
+
+/* =========================================================
+   PAYMENT METHOD BADGE
+========================================================= */
+
+.payment-badge {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 0.4rem;
+
+    padding: 0.4rem 0.65rem;
+
+    border-radius: 999px;
+
+    background: #ecfdf5;
+
+    color: #047857;
+
+    font-size: 0.68rem;
+    font-weight: 900;
+}
+
+.payment-badge-dot {
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+
+    background: #10b981;
+}
+
+
+/* =========================================================
+   IMAGE UPLOAD
+========================================================= */
+
+.image-upload-box {
+    position: relative;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    min-height: 150px;
+
+    padding: 1rem;
+
+    border: 1px dashed #cbd5e1;
+    border-radius: 1rem;
+
+    background: #f8fafc;
+
+    cursor: pointer;
+
+    transition:
+        border-color 160ms ease,
+        background-color 160ms ease;
+}
+
+.image-upload-box:hover {
+    border-color: #818cf8;
+    background: #eef2ff;
+}
+
+.image-upload-input {
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    opacity: 0;
+
+    cursor: pointer;
+}
+
+.image-upload-content {
+    text-align: center;
+}
+
+.image-upload-icon {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 42px;
+    height: 42px;
+
+    margin: 0 auto 0.6rem;
+
+    border-radius: 0.875rem;
+
+    background: #eef2ff;
+
+    color: #4f46e5;
+
+    font-weight: 900;
+}
+
+.image-upload-title {
+    font-size: 0.8rem;
+    font-weight: 900;
+
+    color: #334155;
+}
+
+.image-upload-text {
+    margin-top: 0.25rem;
+
+    color: #94a3b8;
+
+    font-size: 0.7rem;
+}
+
+
+/* =========================================================
+   PAYMENT PREVIEW
+========================================================= */
+
+.payment-preview {
+    padding: 1rem;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 1rem;
+
+    background: #ffffff;
+}
+
+.payment-preview img {
+    display: block;
+
+    width: 180px;
+    height: 180px;
+
+    max-width: 100%;
+
+    margin: 0 auto;
+
+    object-fit: contain;
+}
+
+
+/* =========================================================
+   FOCUS ACCESSIBILITY
+========================================================= */
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+    outline: 3px solid rgba(99, 102, 241, 0.25);
+    outline-offset: 2px;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 640px) {
+
+    body {
+        font-size: 14px;
+    }
+
+    #appHeader {
+        position: sticky;
+    }
+
+    .app-input {
+        min-height: 48px;
+    }
+
+    .primary-btn,
+    .secondary-btn {
+        min-height: 46px;
+    }
+
+    #summarySidebar {
+        position: static !important;
+    }
+
+    #invoicePreviewModal {
+        padding: 0.5rem;
+    }
+
+    .payment-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .payment-section {
+        padding: 1rem;
+    }
+
+    .payment-header {
+        flex-direction: column;
+    }
+
+    .scanner-box {
+        min-height: 210px;
+    }
+
+    .scanner-video {
+        min-height: 210px;
+    }
+
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (min-width: 641px) and (max-width: 1024px) {
+
+    #summarySidebar {
+        position: static !important;
+    }
+
+    .payment-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+
+        transition-duration: 0.01ms !important;
+    }
+
+}
+
+
+/* =========================================================
+   PRINT
+========================================================= */
+
+@media print {
+
+    body {
+        background: #ffffff !important;
+    }
+
+    #appHeader,
+    #summarySidebar,
+    #partyDetailsSection,
+    #invoiceMetaSection,
+    #itemsSection,
+    #gstInformationSection,
+    #notesSection,
+    #invoicePreviewModal,
+    #toastContainer {
+        display: none !important;
+    }
+
+    .payment-section {
+        break-inside: avoid;
+    }
+
+}
+
+
+/* =========================================================
+   PDF / A4 HELPERS
+========================================================= */
+
+.pdf-page {
+    width: 210mm;
+    min-height: 297mm;
+
+    margin: 0 auto;
+
+    background: #ffffff;
+
+    color: #111827;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+}
+
+.pdf-page * {
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   PDF PAYMENT / QR
+========================================================= */
+
+.pdf-payment-section {
+    margin-top: 20px;
+
+    padding-top: 15px;
+
+    border-top: 1px solid #dbe3ef;
+}
+
+.pdf-payment-grid {
+    display: flex;
+
+    gap: 20px;
+
+    align-items: flex-start;
+}
+
+.pdf-qr-box {
+    width: 150px;
+    height: 150px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid #dbe3ef;
+    border-radius: 8px;
+
+    background: #ffffff;
+}
+
+.pdf-qr-box img {
+    width: 130px;
+    height: 130px;
+
+    object-fit: contain;
+}
+
+.pdf-payment-details {
+    flex: 1;
+}
+
+.pdf-payment-title {
+    font-size: 11px;
+    font-weight: 900;
+
+    color: #312e81;
+
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+
+    margin-bottom: 8px;
+}
+
+.pdf-payment-row {
+    display: flex;
+
+    gap: 8px;
+
+    margin-bottom: 5px;
+
+    font-size: 10px;
+}
+
+.pdf-payment-row strong {
+    min-width: 90px;
+}
+
+
+/* =========================================================
+   UTILITY
+========================================================= */
+
+.hidden-force {
+    display: none !important;
+}
+
+.no-select {
+    user-select: none;
+}
+
+.tabular {
+    font-variant-numeric: tabular-nums;
+}
