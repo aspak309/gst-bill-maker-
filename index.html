@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Professional GST Bill Maker — create a one-page GST invoice and download it as PDF.">
+<meta name="google-site-verification" content="92rAyPFFCiIIPwPW431_dsHlI8AblXNmTvxjUoAxztI">
+<title>GST Bill Maker — Professional Invoice</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<style>
+@page{size:A4;margin:0}body{font-family:Inter,ui-sans-serif,system-ui,sans-serif}
+@media print{.no-print{display:none!important}}
+</style>
+</head>
+<body class="min-h-screen bg-slate-100 text-slate-900">
+<header class="no-print sticky top-0 z-50 border-b bg-white/95 backdrop-blur">
+<div class="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3">
+<div><div class="text-lg font-black text-indigo-950">GST Bill Maker</div>
+<div class="text-xs text-slate-500">No login required • One-page PDF • Local processing</div></div>
+<div class="flex flex-wrap gap-2">
+<button id="previewBtn" class="rounded-xl bg-slate-900 px-4 py-2 text-sm font-bold text-white">Preview</button>
+<button id="downloadBtn" class="rounded-xl bg-indigo-700 px-4 py-2 text-sm font-bold text-white">Download PDF</button>
+<button id="resetBtn" class="rounded-xl border bg-white px-4 py-2 text-sm font-bold">New Bill</button>
+</div></div></header>
+
+<main class="no-print mx-auto max-w-7xl px-4 py-6">
+<div class="mb-5 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
+<b>Privacy:</b> Bill, customer, bank, QR and image information is processed locally for the current bill. This version does not save invoice data to Firebase, Firestore or Storage.
+</div>
+
+<div class="grid gap-5 lg:grid-cols-[minmax(0,1fr)_340px]"><section class="space-y-5">
+
+<div class="rounded-2xl border bg-white p-5 shadow-sm"><h2 class="mb-4 text-lg font-black">1. Business / Seller</h2>
+<div class="grid gap-4 md:grid-cols-2">
+<label class="md:col-span-2 text-sm font-semibold">Business name<input id="sellerName" class="mt-1 w-full rounded-xl border px-3 py-2.5" placeholder="ABC Traders"></label>
+<label class="text-sm font-semibold">GSTIN<input id="sellerGSTIN" maxlength="15" class="mt-1 w-full rounded-xl border px-3 py-2.5" placeholder="22AAAAA0000A1Z5"></label>
+<label class="text-sm font-semibold">Phone<input id="sellerPhone" type="tel" class="mt-1 w-full rounded-xl border px-3 py-2.5" placeholder="+91 9876543210"></label>
+<label class="text-sm font-semibold">Email<input id="sellerEmail" type="email" class="mt-1 w-full rounded-xl border px-3 py-2.5"></label>
+<label class="text-sm font-semibold">State<select id="sellerState" class="mt-1 w-full rounded-xl border px-3 py-2.5"></select></label>
+<label class="md:col-span-2 text-sm font-semibold">Business address<textarea id="sellerAddress" rows="2" class="mt-1 w-full rounded-xl border px-3 py-2.5"></textarea></label>
+<label class="text-sm font-semibold">Company logo<input id="logoInput" type="file" accept="image/png,image/jpeg,image/webp" class="mt-1 block w-full text-sm"></label>
+<div><img id="logoThumb" class="hidden h-16 w-16 rounded-xl border object-contain p-1"></div>
+</div></div>
+
+<div class="rounded-2xl border bg-white p-5 shadow-sm"><h2 class="mb-4 text-lg font-black">2. Customer / Buyer</h2>
+<div class="grid gap-4 md:grid-cols-2">
+<label class="text-sm font-semibold">Customer name<input id="buyerName" class="mt-1 w-full rounded-xl border px-3 py-2.5"></label>
+<label class="text-sm font-semibold">GSTIN (optional)<input id="buyerGSTIN" maxlength="15" class="mt-1 w-full rounded-xl border px-3 py-2.5"></label>
+<label class="text-sm font-semibold">Phone<input id="buyerPhone" type="tel" class="mt-1 w-full rounded-xl border px-3 py-2.5"></label>
+<label class="text-sm font-semibold">Email<input id="buyerEmail" type="email" class="mt-1 w-full rounded-xl border px-3 py-2.5"></label>
+<label class="text-sm font-semibold">State<select id="buyerState" class="mt-1 w-full rounded-xl border px-3 py-2.5"></select></label>
+<label class="text-sm font-semibold">Place of supply<select id="placeOfSupply" class="mt-1 w-full rounded-xl border px-3 py-2.5"></select></label>
+<label class="md:col-span-2 text-sm font-semibold">Billing address<textarea id="buyerAddress" rows="2" class="mt-1 w-full rounded-xl border px-3 py-2.5"></textarea></label>
+</div></div>
+
+<div class="rounded-2xl border bg-white p-5 shadow-sm"><h2 class="mb-4 text-lg font-black">3. Invoice details</h2>
+<div class="grid gap-4 md:grid-cols-4">
+<label class="text-sm font-semibold">Invoice number<input id="invoiceNumber" value="INV-0001" class="mt-1 w-full rounded-xl border px-3 py-2.5"></label>
+<label class="text-sm font-semibold">Invoice date<input id="invoiceDate" type="date" class="mt-1 w-full rounded-xl border px-3 py-2.5"></label>
+<label class="text-sm font-semibold">Due date<input id="dueDate" type="date" class="mt-1 w-full rounded-xl border px-3 py-2.5"></label>
+<label class="text-sm font-semibold">Payment terms<input id="paymentTerms" placeholder="Due on receipt" class="mt-1 w-full rounded-xl border px-3 py-2.5"></label>
+</div></div>
+
+<div class="rounded-2xl border bg-white p-5 shadow-sm"><div class="mb-4 flex items-center justify-between"><h2 class="text-lg font-black">4. Items</h2><button id="addItemBtn" class="rounded-xl bg-indigo-700 px-4 py-2 text-sm font-bold text-white">+ Add item</button></div>
+<div class="overflow-x-auto"><table class="w-full min-w-[850px] text-sm"><thead><tr class="bg-slate-900 text-left text-white"><th class="p-2">#</th><th class="p-2">Product / Service</th><th class="p-2">HSN/SAC</th><th class="p-2">Qty</th><th class="p-2">Rate</th><th class="p-2">GST</th><th class="p-2">Amount</th><th></th></tr></thead><tbody id="itemsBody"></tbody></table></div></div>
+
+<div class="rounded-2xl border bg-white p-5 shadow-sm"><h2 class="mb-4 text-lg font-black">5. Payment details (optional)</h2>
+<div class="grid gap-4 md:grid-cols-2">
+<label class="text-sm font-semibold">UPI ID<input id="upiId" class="mt-1 w-full rounded-xl border px-3 py-2.5" placeholder="business@upi"></label>
+<label class="text-sm font-semibold">Account holder<input id="accountName" class="mt-1 w-full rounded-xl border px-3 py-2.5"></label>
+<label class="text-sm font-semibold">Bank name<input id="bankName" class="mt-1 w-full rounded-xl border px-3 py-2.5"></label>
+<label class="text-sm font-semibold">Account number<input id="accountNumber" inputmode="numeric" class="mt-1 w-full rounded-xl border px-3 py-2.5"></label>
+<label class="text-sm font-semibold">IFSC<input id="ifsc" maxlength="11" class="mt-1 w-full rounded-xl border px-3 py-2.5"></label>
+<label class="text-sm font-semibold">Payment note<input id="paymentNote" class="mt-1 w-full rounded-xl border px-3 py-2.5"></label>
+<label class="md:col-span-2 text-sm font-semibold">Existing UPI QR image<input id="upiQrInput" type="file" accept="image/png,image/jpeg,image/webp" class="mt-1 block w-full text-sm"><span class="mt-1 block text-xs font-normal text-slate-500">Upload your own UPI QR. The app does not generate one.</span></label>
+<div><img id="upiQrThumb" class="hidden h-28 w-28 rounded-xl border object-contain p-1"></div>
+</div></div>
+
+<div class="rounded-2xl border bg-white p-5 shadow-sm"><h2 class="mb-4 text-lg font-black">6. Notes & signature</h2>
+<div class="grid gap-4 md:grid-cols-2">
+<label class="md:col-span-2 text-sm font-semibold">Notes / terms<textarea id="invoiceNotes" rows="3" class="mt-1 w-full rounded-xl border px-3 py-2.5"></textarea></label>
+<label class="text-sm font-semibold">Authorized signatory<input id="signatoryName" class="mt-1 w-full rounded-xl border px-3 py-2.5"></label>
+<label class="text-sm font-semibold">Signature image<input id="signatureInput" type="file" accept="image/png,image/jpeg,image/webp" class="mt-1 block w-full text-sm"></label>
+<div><img id="signatureThumb" class="hidden h-16 max-w-40 rounded-xl border object-contain p-1"></div>
+</div></div>
+</section>
+
+<aside><div class="sticky top-24 rounded-2xl border bg-white p-5 shadow-sm"><h2 class="mb-4 text-lg font-black">Live total</h2>
+<div class="space-y-3 text-sm"><div class="flex justify-between"><span>Taxable</span><b id="taxableTotal">₹0.00</b></div><div class="flex justify-between"><span>CGST</span><b id="cgstTotal">₹0.00</b></div><div class="flex justify-between"><span>SGST</span><b id="sgstTotal">₹0.00</b></div><div class="flex justify-between"><span>IGST</span><b id="igstTotal">₹0.00</b></div><div class="mt-4 flex justify-between rounded-xl bg-indigo-950 p-4 text-white"><span class="font-bold">Grand Total</span><b id="grandTotal">₹0.00</b></div></div><p id="taxMode" class="mt-4 text-xs text-slate-500">Select seller and buyer states.</p></div></aside>
+</div></main>
+
+<div id="previewModal" class="no-print fixed inset-0 z-[100] hidden bg-black/60 p-3 md:p-6"><div class="mx-auto flex h-full max-w-5xl flex-col overflow-hidden rounded-2xl bg-white"><div class="flex items-center justify-between border-b p-3"><b>Invoice Preview</b><button id="closePreview" class="rounded-lg border px-3 py-1 text-xl">×</button></div><div id="previewContainer" class="flex-1 overflow-auto bg-slate-100 p-3"></div></div></div>
+<script src="app.js"></script>
+</body></html>
